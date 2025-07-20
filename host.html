@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Host File • Vortexa55</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Nunito', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #fef6f9, #e0d3e6);
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #e06666;
+      margin-bottom: 1rem;
+    }
+    .upload-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      background: #e06666;
+      border: none;
+      color: white;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #d94c4c;
+    }
+    .link-box {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 1rem;
+      color: #4b4b4b;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌟 Upload File Kamu di Vortexa Host</h1>
+  <div class="upload-box">
+    <label for="username">Nama Folder (user):</label>
+    <input type="text" id="username" placeholder="contoh: arya" /><label for="filename">Nama File (ex: index.html):</label>
+<input type="text" id="filename" placeholder="index.html" />
+
+<label for="filecontent">Isi HTML:</label>
+<textarea id="filecontent" rows="10" placeholder="<html>...</html>"></textarea>
+
+<button onclick="uploadFile()">🚀 Upload Sekarang</button>
+
+<div class="link-box" id="linkBox"></div>
+
+  </div>  <script>
+    async function uploadFile() {
+      const username = document.getElementById('username').value.trim();
+      const filename = document.getElementById('filename').value.trim();
+      const content = document.getElementById('filecontent').value;
+
+      if (!username || !filename || !content) {
+        alert('Isi semua kolom dulu yaa 😤💕');
+        return;
+      }
+
+      const encodedContent = btoa(unescape(encodeURIComponent(content)));
+      const repo = "vortexa55/vortexa55.github.io";
+      const path = `server/${username}/${filename}`;
+      const token = "ghp_XXXXXXXXXXXXXX_OBFUSCATED";
+
+      const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: `upload ${filename} by ${username}`,
+          content: encodedContent
+        })
+      });
+
+      if (res.ok) {
+        document.getElementById("linkBox").innerHTML =
+          `✅ Sukses! Link kamu:<br><a href='https://vortexa55.github.io/server/${username}/${filename}' target='_blank'>https://vortexa55.github.io/server/${username}/${filename}</a>`;
+      } else {
+        alert("Gagal upload 😭 Pastikan token & repo benar!");
+      }
+    }
+  </script></body>
+</html>
