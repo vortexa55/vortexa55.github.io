@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vortexa Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Nunito', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+      overflow-x: hidden;
+      color: #333;
+    }
+    .splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+      animation: fadeOut 2s ease forwards;
+      animation-delay: 2s;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+    .splash h1 {
+      font-size: 2.5rem;
+      color: #f08080;
+      animation: zoomIn 1s ease;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .header {
+      text-align: center;
+      padding: 3rem 1rem 1rem;
+    }
+    .header h1 {
+      font-size: 2.8rem;
+      color: #f08080;
+    }
+    .subtext {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      color: #666;
+    }
+    .content {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 2rem;
+      gap: 2rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+      width: 300px;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    .card h2 {
+      color: #f08080;
+      margin-bottom: 1rem;
+    }
+    .card p {
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="splash">
+    <h1>🌈 Vortexa Dashboard Loading...</h1>
+  </div>  <div class="header">
+    <h1>Vortexa Hosting Panel</h1>
+    <p class="subtext">Mini Hosting Gratis • Lucu • Buatan Arya Ganteng 😚💕</p>
+  </div>  <div class="content">
+    <div class="card">
+      <h2>🚀 Mulai Hosting</h2>
+      <p><a href="/host.html">Upload & Buat Halaman</a></p>
+    </div>
+    <div class="card">
+      <h2>📂 Lihat Project</h2>
+      <p><a href="/server/">Jelajahi Folder Hosting</a></p>
+    </div>
+    <div class="card">
+      <h2>📖 Panduan</h2>
+      <p><a href="#">Cara Pakai & Tips</a></p>
+    </div>
+  </div>  <footer>
+    © 2025 Vortexa55 by Arya Ganteng 😏💕 | Hak Cipta Dilindungi dengan Cinta 💖
+  </footer>
+</body>
+  </html>
