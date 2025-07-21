@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar Akun Baru 🚀</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f7fc;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px 35px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 360px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      text-align: center;
+      color: #7d3cff;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      background-color: #7d3cff;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #5e2dbf;
+    }
+
+    .message {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 15px;
+    }
+
+    .error {
+      color: #c0392b;
+    }
+
+    .success {
+      color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Daftar Akun 🚀</h1>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Buat Akun 🌟</button>
+    </form>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    // Redirect kalau udah pernah register
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      window.location.href = 'dashboard.html';
+    }
+
+    const form = document.getElementById('registerForm');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const message = document.getElementById('message');
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const user = username.value.trim();
+      const pass = password.value.trim();
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+
+      if (users[user]) {
+        showMessage("Username sudah dipakai 😥", "error");
+      } else {
+        users[user] = pass;
+        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', user);
+        showMessage("Akun berhasil dibuat! 🎉", "success");
+        setTimeout(() => window.location.href = 'dashboard.html', 1000);
+      }
+    };
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = "message " + type;
+    }
+  </script>
+</body>
+</html>
