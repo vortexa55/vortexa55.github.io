@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔐 Lock Link | Vortexa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f6ff;
+      color: #4a0072;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .typing {
+      font-weight: bold;
+      font-size: 1.5rem;
+      white-space: nowrap;
+      border-right: 2px solid;
+      width: 0;
+      overflow: hidden;
+      animation: typing 3s steps(40, end) forwards, blink .7s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 280px }
+    }
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+    .container {
+      display: none;
+      flex-direction: column;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(160, 32, 240, 0.15);
+      width: 300px;
+      text-align: center;
+    }
+    input {
+      padding: 10px;
+      margin: 8px 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #8e24aa;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .output {
+      margin-top: 15px;
+      word-break: break-all;
+      font-size: 0.9em;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="typing">🔐 Vortexa Link Locker...</div>
+
+  <div class="container" id="formContainer">
+    <h2>🔒 Kunci Link Kamu</h2>
+    <input type="text" id="linkInput" placeholder="Masukkan URL">
+    <input type="password" id="passwordInput" placeholder="Password kunci">
+    <button onclick="generateLockedLink()">🔐 Kunci Sekarang</button>
+    <div class="output" id="lockedLink"></div>
+  </div>
+
+  <script>
+    // Tampilkan form setelah animasi selesai
+    setTimeout(() => {
+      document.querySelector(".typing").style.display = "none";
+      document.getElementById("formContainer").style.display = "flex";
+    }, 3500);
+
+    async function sha256(str) {
+      const msgUint8 = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function generateLockedLink() {
+      const link = document.getElementById("linkInput").value.trim();
+      const password = document.getElementById("passwordInput").value.trim();
+
+      if (!link || !password) {
+        alert("Isi link dan password yaa 🤭💕");
+        return;
+      }
+
+      const hash = await sha256(password);
+      const encodedURL = encodeURIComponent(link);
+      const resultLink = `unlock.html?url=${encodedURL}&key=${hash}`;
+
+      document.getElementById("lockedLink").innerHTML = `
+        ✅ Link kamu berhasil dikunci!<br>
+        <strong><a href="${resultLink}" target="_blank">${resultLink}</a></strong>
+      `;
+    }
+  </script>
+</body>
+</html>
