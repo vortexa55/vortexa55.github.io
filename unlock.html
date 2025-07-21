@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔓 Unlock a Link - Vortexa</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2ecff;
+      color: #3b0066;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(100, 0, 150, 0.2);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 16px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 16px;
+      background: #7e1fa2;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #6b1992;
+    }
+    .output {
+      margin-top: 25px;
+      font-size: 0.95rem;
+      word-break: break-all;
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 25px;
+      }
+      input, button {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🔓 Enter Password to Unlock</h2>
+    <input type="password" id="password" placeholder="Enter your password">
+    <button onclick="unlock()">Unlock Link</button>
+    <div class="output" id="result"></div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const encryptedData = params.get("data");
+    const correctKey = params.get("key");
+
+    async function sha256(text) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function unlock() {
+      const pw = document.getElementById("password").value.trim();
+      if (!pw) return alert("Enter the password!");
+
+      const hash = await sha256(pw);
+      if (hash !== correctKey) {
+        document.getElementById("result").innerText = "❌ Incorrect password!";
+        return;
+      }
+
+      try {
+        const decrypted = CryptoJS.AES.decrypt(encryptedData, pw);
+        const url = decrypted.toString(CryptoJS.enc.Utf8);
+        if (!url) throw "Invalid data";
+
+        document.getElementById("result").innerHTML = `
+          ✅ Success!<br>
+          <a href="${url}" target="_blank">Click here to open your link</a>
+        `;
+      } catch {
+        document.getElementById("result").innerText = "❌ Failed to decrypt the link!";
+      }
+    }
+  </script>
+</body>
+</html>
