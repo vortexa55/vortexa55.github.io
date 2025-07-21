@@ -95,7 +95,7 @@
 
       const encryptedURL = CryptoJS.AES.encrypt(url, pw).toString();
       const hashedPW = await sha256(pw);
-      const lockedURL = `unlock.html?data=${encodeURIComponent(encryptedURL)}&key=${hashedPW}`;
+      const lockedURL = `vortexa55.github.io/unlock.html?data=${encodeURIComponent(encryptedURL)}&key=${hashedPW}`;
 
       document.getElementById("result").innerHTML = `
         ✅ Locked successfully!<br>
