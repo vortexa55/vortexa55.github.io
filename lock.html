@@ -2,106 +2,138 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🔐 Lock Your Link - Vortexa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vortexa | Lock Link</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
   <style>
     * {
-      box-sizing: border-box;
-    }
-    body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f2ecff;
-      color: #3b0066;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
     }
-    .container {
-      background: #fff;
-      padding: 40px;
+
+    body {
+      background: #f7f3ff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .fadein {
+      animation: fadein 1.2s ease-in-out;
+    }
+
+    @keyframes fadein {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      color: #6c3eb7;
+      margin-bottom: 1rem;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
       border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(100, 0, 150, 0.2);
-      max-width: 500px;
+      box-shadow: 0 0 15px rgba(108, 62, 183, 0.1);
+      max-width: 420px;
       width: 100%;
       text-align: center;
     }
-    h2 {
-      margin-bottom: 20px;
-    }
+
     input {
       width: 100%;
-      padding: 16px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
       font-size: 1rem;
     }
+
     button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 16px;
-      background: #7e1fa2;
-      color: #fff;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #6c3eb7;
+      color: white;
       border: none;
-      border-radius: 12px;
-      font-size: 1.1rem;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
       transition: background 0.3s;
     }
+
     button:hover {
-      background: #6b1992;
+      background: #582c9b;
     }
-    .output {
-      margin-top: 25px;
-      font-size: 0.95rem;
+
+    #result {
+      margin-top: 1rem;
       word-break: break-all;
+      font-size: 0.9rem;
     }
+
     @media (max-width: 480px) {
-      .container {
-        padding: 25px;
+      .card {
+        padding: 1.5rem;
       }
-      input, button {
-        font-size: 1rem;
+      h1 {
+        font-size: 1.4rem;
       }
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <h2>🔐 Lock a Public Link</h2>
-    <input type="text" id="url" placeholder="Enter your link">
-    <input type="password" id="password" placeholder="Set a password">
-    <button onclick="lockLink()">Generate Locked Link</button>
-    <div class="output" id="result"></div>
+<body class="fadein">
+  <div class="card">
+    <h1>🔒 Lock Your Link</h1>
+    <form id="lockForm">
+      <input type="text" id="url" placeholder="Enter link (https://...)" required />
+      <input type="password" id="password" placeholder="Enter password" required />
+      <button type="submit">Lock Link</button>
+    </form>
+    <div id="result"></div>
   </div>
 
   <script>
-    async function sha256(text) {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(text);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
+    document.getElementById("lockForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    async function lockLink() {
-      const url = document.getElementById("url").value.trim();
-      const pw = document.getElementById("password").value.trim();
-      if (!url || !pw) return alert("Please fill in both fields!");
+      const urlInput = document.getElementById("url").value.trim();
+      const password = document.getElementById("password").value.trim();
 
-      const encryptedURL = CryptoJS.AES.encrypt(url, pw).toString();
-      const hashedPW = await sha256(pw);
+      // ✅ Validate URL starts with http:// or https://
+      if (!urlInput.startsWith("https://") && !urlInput.startsWith("http://")) {
+        alert("🚨 Please enter a valid link starting with http:// or https://");
+        return;
+      }
+
+      // Hash password
+      const hashedPW = CryptoJS.SHA256(password).toString();
+
+      // Encrypt URL with password
+      const encryptedURL = CryptoJS.AES.encrypt(urlInput, password).toString();
+
       const lockedURL = `https://vortexa55.github.io/unlock.html?data=${encodeURIComponent(encryptedURL)}&key=${hashedPW}`;
 
       document.getElementById("result").innerHTML = `
         ✅ Locked successfully!<br>
         <a href="${lockedURL}" target="_blank">${lockedURL}</a>
       `;
-    }
+    });
   </script>
 </body>
 </html>
