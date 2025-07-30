@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YouTube to MP4 - Merah Putih</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      overflow-x: hidden;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: fadeSwipeUp 1.4s ease forwards;
+    }
+    @keyframes fadeSwipeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    header {
+      background-color: #d32f2f;
+      color: white;
+      padding: 24px 16px;
+      text-align: center;
+      border-bottom: 4px solid #b71c1c;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.08);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 600;
+    }
+    main {
+      max-width: 600px;
+      margin: 80px auto 40px;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+      background-color: #ffffff;
+    }
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 2px solid #d32f2f;
+      border-radius: 14px;
+      outline: none;
+      margin-bottom: 20px;
+      transition: 0.2s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #ff5252;
+      box-shadow: 0 0 0 3px #ffeaea;
+    }
+    button {
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.2s ease;
+      box-shadow: 0 6px 10px rgba(244, 67, 54, 0.3);
+    }
+    button:hover {
+      background-color: #b71c1c;
+      transform: translateY(-2px);
+    }
+    button:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 5px rgba(244, 67, 54, 0.4);
+    }
+    .download-links {
+      margin-top: 20px;
+    }
+    .download-links a {
+      display: block;
+      margin-top: 10px;
+      font-size: 16px;
+      text-decoration: none;
+      color: #d32f2f;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 80px;
+      padding: 20px;
+    }
+    @media (max-width: 640px) {
+      main {
+        margin: 60px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>YouTube to MP4</h1>
+    <p style="margin: 0;">Merdeka download, merdeka nonton! </p>
+  </header>
+
+  <main>
+    <label for="yt-url">Tempel Link YouTube:</label>
+    <input type="text" id="yt-url" placeholder="https://youtube.com/..." />
+    <button onclick="getDownload()">KONVERSI SEKARANG 🎥</button>
+    <div class="download-links" id="result"></div>
+  </main>
+
+  <footer>
+    &copy; 2025 Made by VORTEXA 
+  </footer>
+
+  <script>
+    function getDownload() {
+      const input = document.getElementById("yt-url").value.trim();
+      const id = input.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+      if (!id) return alert("Link-nya salah😩");
+
+      const videoId = id[1];
+      const baseUrl = "https://inv.nadeko.net/latest_version";
+
+      const link140 = `${baseUrl}?id=${videoId}&itag=17`;
+      const link360 = `${baseUrl}?id=${videoId}&itag=18`;
+      const link720 = `${baseUrl}?id=${videoId}&itag=22`;
+
+      document.getElementById("result").innerHTML = `
+        <a href="${link140}" target="_blank">📱 Download 144p MP4 (burik sering error)</a>
+        <a href="${link360}" target="_blank">🎬 Download 360p MP4 (rekomendsi) </a>
+        <a href="${link720}" target="_blank">🎥 Download 720p MP4 (jika tersedia)</a>
+      `;
+    }
+  </script>
+
+</body>
+</html>
