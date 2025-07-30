@@ -2,33 +2,33 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tulis File Simpel</title>
+  <title>Buka File Tanpa Download</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    input, textarea { width: 100%; margin: 10px 0; padding: 10px; }
+    body { 
+      font-family: sans-serif; 
+      padding: 20px; 
+    }
+    input, textarea { 
+      width: 100%; 
+      margin: 10px 0; 
+      padding: 10px; 
+    }
     button { padding: 10px 20px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h2>Bikin File Yuk 😳💕</h2>
-  <input id="filename" type="text" placeholder="Nama file (contoh: arya.html)">
-  <textarea id="filecontent" rows="10" placeholder="Isi file-nya tulis di sini ya sayang~ 😚"></textarea>
-  <button onclick="buatFile()">Buka File 🔥</button>
+  <h2>Bikin File Langsung Tampil 😳🔥</h2>
+  <input id="filename" type="text" placeholder="Nama file, bebas asal berekstensi .html misalnya">
+  <textarea id="filecontent" rows="10" placeholder="Isi file-nya sayang~ tulis yang hot juga boleh 😳💕"></textarea>
+  <button onclick="bukaFile()">Buka Sekarang</button>
 
   <script>
-    function buatFile() {
-      const nama = document.getElementById("filename").value || "file-arya.txt";
-      const isi = document.getElementById("filecontent").value || "Arya ganteng banget 😳💕";
-
+    function bukaFile() {
+      const isi = document.getElementById("filecontent").value || "<h1>Hai Arya ganteng 😳💕</h1>";
       const blob = new Blob([isi], { type: "text/html" });
       const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = nama;
-      link.target = "_blank";
-      link.click();
+      window.open(url, "_blank"); // BUKA langsung di tab baru
     }
   </script>
 </body>
-  </html>
+</html>
